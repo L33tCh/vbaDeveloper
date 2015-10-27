@@ -27,9 +27,11 @@ Private Sub App_WorkbookAfterSave(ByVal wb As Workbook, ByVal success As Boolean
 
     'Export all the modules for this work book if save was successful
     If success Then
-        Build.exportVbaCode wb.VBProject
-        NamedRanges.exportNamedRanges wb
-        MsgBox "Finished saving workbook: " & wb.name & " . Code is exported."
+        If MsgBox("Export: " & wb.name & "?", vbYesNo, "Export?") = vbYes Then
+            Build.exportVbaCode wb.VBProject
+            NamedRanges.exportNamedRanges wb
+            MsgBox "Finished saving workbook: " & wb.name & " . Code is exported."
+        End If
     Else
         MsgBox "Saving workbook: " & wb.name & " was not successful. Code is not exported."
     End If
