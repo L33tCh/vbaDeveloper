@@ -54,6 +54,8 @@ Private Sub App_WorkbookOpen(ByVal wb As Workbook)
 
     'Import all the modules for this workbook
     Dim importNow As Integer
+    if wb.name = "vbaDeveloper.xlam" then Exit Sub
+    
     importNow = MsgBox("Import the code for " & wb.name & " now?", vbYesNo, "EventListener Workbook open event")
     If importNow = vbYes Then
         Build.importVbaCode wb.VBProject
