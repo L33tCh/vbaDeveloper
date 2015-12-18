@@ -27,6 +27,7 @@ Private Sub App_WorkbookAfterSave(ByVal wb As Workbook, ByVal success As Boolean
 
     'Export all the modules for this work book if save was successful
     If success Then
+        If LCase(Right(wb.name, 4)) <> "xlsm" Then Exit Sub
         If MsgBox("Export: " & wb.name & "?", vbYesNo, "Export?") = vbYes Then
             Build.exportVbaCode wb.VBProject
             NamedRanges.exportNamedRanges wb
@@ -53,9 +54,8 @@ Private Sub App_WorkbookOpen(ByVal wb As Workbook)
     On Error GoTo App_WorkbookOpen_Error
 
     'Import all the modules for this workbook
+    If LCase(Right(wb.name, 4)) <> "xlsm" Then Exit Sub
     Dim importNow As Integer
-    if wb.name = "vbaDeveloper.xlam" then Exit Sub
-    
     importNow = MsgBox("Import the code for " & wb.name & " now?", vbYesNo, "EventListener Workbook open event")
     If importNow = vbYes Then
         Build.importVbaCode wb.VBProject
